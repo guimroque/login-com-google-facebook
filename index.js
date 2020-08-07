@@ -31,16 +31,27 @@ app.use(passport.session());
 //rotas
 app.get('/', (req, res) => res.send('Voce ainda nao logou'))
 app.get('/failed', isLoggedIn, (req,res)=>res.send('Falha no login!'))
-app.get('/success', isLoggedIn, (req,res)=>res.send('Bem vindo '+req.user.displayName+'!'))
+app.get('/success/google', isLoggedIn, (req,res)=>{
+  console.log(req.user)
+  res.send('Bem vindo '+req.user.displayName+'!')})
+app.get('/success/facebook', isLoggedIn, (req,res)=>{
+  console.log(req.user)
+  res.send('Bem vindo '+req.user.displayName+'!')})
 //trabalhando com passport, rota de autenticação e redirecionamento após login 
 app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }),
+
   function(req, res) {
     // Autenticação feita com sucesso, redirecionar a pagina Home
-    res.redirect('/success');
+    res.redirect('/success/google');
+  });
+app.get('/facebook', passport.authenticate('facebook'));
+app.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/success/facebook');
   });
 app.get('/logout', (req, res)=>{
-    console.log(session)
     req.session = null;
     req.logout();
     res.redirect('/');

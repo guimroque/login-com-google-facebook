@@ -21,8 +21,8 @@ passport.use(new GoogleStrategy({//configurando passport com dados da API do goo
 ));
 
 passport.use(new FacebookStrategy({
-  clientID: '759433408219287',
-  clientSecret: 'e16f15ae9eaccac83855cfdc6bf22035',
+  clientID: 'segredo',
+  clientSecret: 'segredo',
   callbackURL: "http://localhost:3000/facebook/callback"
 },
 function(accessToken, refreshToken, profile, done) {
